@@ -1,16 +1,41 @@
 class Album
-  attr_accessor :name
+  attr_accessor :id, :name
 
-  def initialize(name)
+  @@albums = {}
+  @@total_rows = 0
+
+  def initialize(name, id)
+    @name = name
+    @id = id || @@total_rows += 1
+  end
+
+  def self.all()
+    @@albums.values()
+  end
+
+  def save
+    @@albums[self.id] = Album.new(self.name, self.id)
+  end
+
+  def ==(album_to_compare)
+    self.name() == album_to_compare.name()
+  end
+
+  def self.clear
+    @@albums = {}
+    @@total_rows = 0
+  end
+
+  def self.find(id)
+    @@albums[id]
+  end
+
+  def update(name)
     @name = name
   end
 
-  @@albums = []
-
-  def self.all()
-    @@albums
+  def delete
+    @@albums.delete(self.id)
   end
 
-  def self.find(name)
-  end
 end
