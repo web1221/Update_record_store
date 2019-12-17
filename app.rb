@@ -4,9 +4,6 @@ require('./lib/album')
 require('pry')
 also_reload('lib/**/*.rb')
 
-album = Album.new("Giant Steps", nil)
-album2 = Album.new("Blue", nil)
-
 get('/') do
   @albums = Album.all
   erb(:albums)
@@ -14,6 +11,15 @@ end
 
 get('/albums') do
   @albums = Album.all
+  erb(:albums)
+end
+
+post('/albums/search') do
+  type = params[:type]
+  search = params[:search]
+  puts type
+  puts search
+  @albums = Album.search(type, search)
   erb(:albums)
 end
 
@@ -27,10 +33,10 @@ get('/albums/:id') do
 end
 
 post('/albums') do
-  name = params[:album_name]
-  album = Album.new(name, nil)
+  values = *params.values
+  album = Album.new(values[0], values[1], values[2], values[3], nil)
   album.save()
-  @albums = Album.all() # Adding this line will fix the error.
+  @albums = Album.all()
   erb(:albums)
 end
 
@@ -51,8 +57,4 @@ delete('/albums/:id') do
   @album.delete()
   @albums = Album.all
   erb(:albums)
-end
-
-get('/custom_route') do
-  "We can even create custom routes, but we should only do this when needed."
 end

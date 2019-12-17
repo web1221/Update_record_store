@@ -13,3 +13,17 @@
 <% end %>
 
 <a href="/albums/new">Add a new album</a>
+
+<form action="/albums/search" method="post">
+  <div class="form-group">
+    <label for="type">Search by:</label>
+    <select name="type">
+      <option value="name">Name</option>
+      <option value="genre">Genre</option>
+      <option value="year">Year</option>
+    </select>
+    <label for="search">Search</label>
+    <input id="search" name="search" class="form-control" type="text">
+  </div>
+  <button type="submit" class="btn">Go!</button>
+</form>
